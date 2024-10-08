@@ -26,5 +26,15 @@ public class FileLoggerTests
         }
     }
 
-    
+    // [TestCleanup]
+    // public void Cleanup()
+    // {
+    //     // Clean up the log file after each test
+    //     if (File.Exists(_expectedFilePath))
+    //     {
+    //         File.Delete(_expectedFilePath);
+    //     }
+    // }
+
+
 }
