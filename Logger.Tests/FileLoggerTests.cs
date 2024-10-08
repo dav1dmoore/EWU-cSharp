@@ -26,15 +26,47 @@ public class FileLoggerTests
         }
     }
 
-    // [TestCleanup]
-    // public void Cleanup()
-    // {
-    //     // Clean up the log file after each test
-    //     if (File.Exists(_expectedFilePath))
-    //     {
-    //         File.Delete(_expectedFilePath);
-    //     }
-    // }
+    [TestMethod]
+    public void Log_ShouldWriteMessageToFile()
+    {
+        // Arrange
+        var logger = new FileLogger(_logFilePath)
+        {
+            ClassName = nameof(FileLoggerTests)
+        };
 
+        string expectedMessage = "Test message";
+
+        // Act
+        logger.Log(LogLevel.Information, expectedMessage);
+
+        // Assert
+        string logContent = File.ReadAllText(_logFilePath);
+        Assert.IsTrue(logContent.Contains(expectedMessage));
+        Assert.IsTrue(logContent.Contains(nameof(FileLoggerTests)));
+        Assert.IsTrue(logContent.Contains("Information"));
+    }
+
+    [TestMethod]
+    public void Log_ShouldIncludeTimestamp()
+    {
+        // Arrange
+        var logger = new FileLogger(_logFilePath)
+        {
+            ClassName = nameof(FileLoggerTests)
+        };
+
+        string expectedMessage = "Another test message";
+
+        // Act
+        logger.Log(LogLevel.Warning, expectedMessage);
+
+        // Assert
+        string logContent = File.ReadAllText(_logFilePath);
+        string expectedDate = DateTime.Now.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);  // Compare only the date
+
+        // Check that the log file contains the correct date
+        Assert.IsTrue(logContent.Contains(expectedDate), $"Log content did not contain expected date: {expectedDate}");
+    }
 
 }
