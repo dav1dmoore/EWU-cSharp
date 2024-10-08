@@ -5,6 +5,8 @@ namespace Logger;
 
 public static class BaseLoggerMixins
 {
+    // Employed GPT for explanation and code assistance.
+    // Extension method for Error logging
     public static void Error(this BaseLogger logger, string format, params object[] args)
     {
         ArgumentNullException.ThrowIfNull(logger);
@@ -28,4 +30,5 @@ public static class BaseLoggerMixins
         ArgumentNullException.ThrowIfNull(logger);
         logger.Log(LogLevel.Debug, string.Format(CultureInfo.InvariantCulture, format, args));
     }
+
 }
